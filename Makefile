@@ -104,7 +104,7 @@ eks-integration-setup: build kind test-setup ## Setup the integration test using
 eks-integration-run: ## Run the integration test controller
 	@./integration/eks-test/scripts/eks-run-tests.sh
 
-eks-integration-cleanup: kind  ## Cleanup integration test resources in Cloud Map and EKS cluster
+eks-integration-cleanup: kind test-setup ## Cleanup integration test resources in Cloud Map and EKS cluster
 	@./integration/eks-test/scripts/eks-cleanup.sh
 
 eks-test:
