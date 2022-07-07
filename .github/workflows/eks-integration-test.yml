@@ -1,13 +1,11 @@
 name: EKS integration
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 jobs:
   integration-test:
     name: Run EKS Integration Test
     runs-on: ubuntu-latest
-    environment: EKS Integration Test
+    environment: Integration Test
     permissions:
       id-token: write
     steps:
@@ -15,7 +13,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ap-southeast-2
-          role-to-assume: ${{ secrets.EKS_AWS_ROLE_TO_ASSUME }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-session-name: EKSIntegrationTestSession
       - name: Checkout code
         uses: actions/checkout@v2
