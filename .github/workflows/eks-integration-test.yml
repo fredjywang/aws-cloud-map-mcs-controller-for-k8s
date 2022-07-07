@@ -1,22 +1,22 @@
-name: integration
+name: EKS integration
 on:
   push:
     branches:
       - main
 jobs:
   integration-test:
-    name: Run Integration Test
+    name: Run EKS Integration Test
     runs-on: ubuntu-latest
-    environment: Integration Test
+    environment: EKS Integration Test
     permissions:
       id-token: write
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-region: us-west-2
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-session-name: IntegrationTestSession
+          aws-region: ap-southeast-2
+          role-to-assume: ${{ secrets.EKS_AWS_ROLE_TO_ASSUME }}
+          role-session-name: EKSIntegrationTestSession
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set up Go
@@ -26,10 +26,10 @@ jobs:
       - name: Set up env
         run: source ~/.bashrc
       - name: Start clean
-        run: make kind-integration-cleanup
+        run: make eks-integration-cleanup
       - name: Set up cluster
-        run: make kind-integration-setup
+        run: make eks-integration-setup
       - name: Run tests
-        run: make kind-integration-run
+        run: make eks-integration-run
       - name: Clean up clusters
-        run: make kind-integration-cleanup
+        run: make eks-integration-cleanup

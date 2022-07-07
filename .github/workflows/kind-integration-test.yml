@@ -1,0 +1,35 @@
+name: Kind integration
+on:
+  push:
+    branches:
+      - main
+jobs:
+  integration-test:
+    name: Run Kind Integration Test
+    runs-on: ubuntu-latest
+    environment: Integration Test
+    permissions:
+      id-token: write
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-west-2
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: IntegrationTestSession
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+      - name: Set up env
+        run: source ~/.bashrc
+      - name: Start clean
+        run: make kind-integration-cleanup
+      - name: Set up cluster
+        run: make kind-integration-setup
+      - name: Run tests
+        run: make kind-integration-run
+      - name: Clean up clusters
+        run: make kind-integration-cleanup
