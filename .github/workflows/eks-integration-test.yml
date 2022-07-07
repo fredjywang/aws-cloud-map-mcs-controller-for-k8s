@@ -26,7 +26,7 @@ jobs:
       - name: Set up eksctl
         uses: robatwave/github-action-eksctl@0.1.2
       - name: Set up kubectl
-        uses: actions-hub/kubectl@1.21.12
+        uses: actions-hub/kubectl@1.21.2
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
