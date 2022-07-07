@@ -1,6 +1,8 @@
 name: Kind integration
 on:
-  workflow_dispatch
+  push:
+    branches:
+      eks-integration-workflow
 jobs:
   integration-test:
     name: Run Kind Integration Test

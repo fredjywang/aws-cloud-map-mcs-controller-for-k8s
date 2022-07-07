@@ -1,6 +1,8 @@
 name: EKS integration
 on:
-  workflow_dispatch
+  push:
+    branches:
+      eks-integration-workflow
 jobs:
   integration-test:
     name: Run EKS Integration Test
