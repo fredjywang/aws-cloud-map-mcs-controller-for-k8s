@@ -17,27 +17,38 @@ jobs:
           aws-region: ap-southeast-2
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-session-name: EKSIntegrationTestSession
+
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
           go-version: 1.17
+
       - name: Set up eksctl
-        uses: robatwave/github-action-eksctl@0.1.2
+        run: 
+        curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+        sudo mv /tmp/eksctl /usr/local/bin
+
       - name: Set up kubectl
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
           args: get pods
+
       - name: Set up env
         run: source ~/.bashrc
+
       - name: Start clean
         run: make eks-integration-cleanup
+
       - name: Set up cluster
         run: make eks-integration-setup
+
       - name: Run tests
         run: make eks-integration-run
+        
       - name: Clean up clusters
         run: make eks-integration-cleanup
