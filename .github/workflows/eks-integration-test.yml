@@ -40,6 +40,9 @@ jobs:
       - name: Set up env
         run: source ~/.bashrc
 
+      - name: Get caller id
+        run: aws sts get-caller-identity
+
       - name: Start clean
         run: make eks-integration-cleanup
 
